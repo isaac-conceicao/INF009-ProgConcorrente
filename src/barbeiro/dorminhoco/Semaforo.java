@@ -9,20 +9,20 @@ public class Semaforo {
         this.count = valorIni;
     }
     
-    public synchronized void V(){//UP
-        this.count++;
-        notify();//acordar o processo
+    public synchronized void V(){//UP libera a região crítica
+        this.count++;//incrementa o contador
+        notify();//acorda o processo
     }
     
-    public synchronized void P(){//DOWN
-        while(this.count <= 0){//espera para poder entrar na zona crítica
+    public synchronized void P(){//DOWN: solicita acesso a região crítica
+        while(this.count <= 0){//caso não esteja livre
             try {
-                wait();
+                wait();//enfila o processo
             } catch (InterruptedException ex) {
                 Logger.getLogger(Semaforo.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        this.count--;//processo pode entrar na zona crítica
+        this.count--;//acessa a regiao critica
     }
     
 }
